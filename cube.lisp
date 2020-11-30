@@ -56,3 +56,39 @@
       (prep-edge 'blr + - +)
       (prep-edge 'bur + + +)
       (prep-edge 'bul - + +))))
+
+(defmethod finalize ((cube cube) (cam camera))
+  (macrolet ((prep-face (face-name lower-left upper-left lower-right)
+	       (let ((up (gensym))
+		     (right (gensym))
+		     (normal (gensym)))
+		 `(let* ((,up (m- (slot-value cube ,upper-left) (slot-value cube ,lower-left)))
+			 (,right (m- (slot-value cube ,lower-right) (slot-value cube ,lower-left)))
+			 (,normal (normalized (cross ,up ,right))))
+		    (setf (slot-value cube ,face-name)
+			  (list (slot-value cube ,lower-left) ,up ,right ,normal))))))
+    (prep-face 'front 'fll 'ful 'flr)
+    (prep-face 'back 'blr 'bur 'bll)
+    (prep-face 'left 'bll 'bul 'fll)
+    (prep-face 'right 'flr 'fur 'blr)
+    (prep-face 'top 'ful 'bul 'fur)
+    (prep-face 'bottom 'blr 'flr 'bll))
+  t)
+
+
+(defmethod intersects ((cube cube) (ray ray) &key (lower-bound 0.0) shadow-feeler)
+  (let ((intersection-points
+	  (loop :for side :in '(front back left right top bottom)
+		:for ip = (destructuring-bind (origin up right normal)
+			      (slot-value cube side)
+			    (multiple-value-bind (dist u v)
+				(intersects-face origin up right ray #'(lambda (u v) (and (<= 0 u 1)
+											  (<= 0 v 1))))
+			      (when dist
+				(list dist cube (point-on-ray ray dist) u v normal))))
+		:unless (null ip) :collect ip)))
+    (min-in-range intersection-points
+		  :lower-bound lower-bound
+		  :upper-bound shadow-feeler
+		  :key #'car)))
+
