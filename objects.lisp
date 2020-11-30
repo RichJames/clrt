@@ -8,7 +8,8 @@
 	   #:object-material
 	   #:intersects
 	   #:finalize
-	   #:sphere))
+	   #:sphere
+	   #:cube))
 
 (in-package #:clrt-objects)
 

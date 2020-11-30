@@ -27,6 +27,8 @@
   (push object (slot-value scene 'objects)))
 
 (defun render (scene width height filename)
+  (dolist (obj (scene-objects scene))
+    (finalize obj (scene-camera scene)))
   (let* ((image (make-instance 'zpng:png
 			       :width width
 			       :height height))

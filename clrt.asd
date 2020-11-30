@@ -13,4 +13,5 @@
 	       (:file "ray" :depends-on ("linalg"))
 	       (:file "objects" :depends-on ("linalg" "camera" "ray"))
 	       (:file "scene" :depends-on ("linalg" "camera" "objects"))
-	       (:file "sphere" :depends-on ("linalg" "objects"))))
+	       (:file "sphere" :depends-on ("linalg" "objects"))
+	       (:file "cube" :depends-on ("linalg" "objects"))))
