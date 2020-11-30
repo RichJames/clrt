@@ -14,6 +14,7 @@
 	   #:mult
 	   #:m+
 	   #:m-
+	   #:m.
 	   #:make-vector
 	   #:vec-x
 	   #:vec-y
@@ -125,7 +126,7 @@
   (m* m s))
 
 (defmethod m* ((a single-float) (b single-float))
-  (+ a b))
+  (* a b))
 
 (defmethod mult (&rest operands)
   (when (consp operands)
@@ -150,6 +151,8 @@
 
 (def-elementwise-op-fun m+ #'+)
 (def-elementwise-op-fun m- #'-)
+(def-elementwise-op-fun m. #'*)
+
 
 (defmacro make-vector (dim &key (orientation :column) data generator)
   (let ((i (gensym))

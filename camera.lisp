@@ -8,7 +8,7 @@
 	   #:camera-pos
 	   #:camera-direction
 	   #:camera-fov
-	   #:world-view))
+	   #:world->view))
 
 (in-package #:clrt-camera)
 

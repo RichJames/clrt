@@ -3,7 +3,7 @@
 ;;;;
 
 (defpackage #:clrt-objects
-  (:use #:cl #:linalg #:clrt-camera #:clrt-ray)
+  (:use #:cl #:linalg #:clrt-camera #:clrt-ray #:clrt-material)
   (:export #:object
 	   #:object-material
 	   #:intersects
@@ -20,6 +20,9 @@
     :type matrix
     :reader object-center)
    (material
+    :initarg :material
+    :initform (error ":material must be specified.")
+    :type material
     :reader object-material)))
 
 (defgeneric intersects (obj ray &key lower-bound shadow-feeler))
