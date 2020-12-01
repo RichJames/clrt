@@ -8,7 +8,7 @@ This code is largely the code that he creates over the course of the 4 part Yout
 ## License
 As this code is almost entirely Andrew Lehmann's original work, it is licensed under the same terms as his original code: Apache License, Version 2.0.  A copy of the license can be obtained at http://www.apache.org/licenses/LICENSE-2.0 .
 
-Additionally, any use of this code must include ackknowledgement of Andrew Lehmann and his original reposity located at https://github.com/afwlehmann/clrt-tutorial.
+Additionally, any use of this code must include acknowledgement of Andrew Lehmann and his original reposity located at https://github.com/afwlehmann/clrt-tutorial.
 
 ## Running the example
 
