@@ -33,6 +33,7 @@
   (push light (slot-value scene 'lights)))
 
 (defun render (scene width height filename)
+  (declare (optimize (debug 3)))
   (assert (consp (slot-value scene 'objects))
 	  nil
 	  "There are no objects in this scene.")
@@ -83,6 +84,7 @@
     (zpng:write-png image filename :if-exists :supersede)))
 
 (defun find-closest-intersection (scene ray lower-bound shadow-feeler)
+  (declare (optimize (debug 3)))
   (let ((closest-match))
     (dolist (obj (scene-objects scene) closest-match)
       (let ((intersection-point (intersects obj ray
@@ -90,12 +92,13 @@
 					    :shadow-feeler shadow-feeler)))
 	(if closest-match
 	    (setf closest-match
-		  (if (<= (car intersection-point) (car closest-match))
+		  (if (and intersection-point (<= (car intersection-point) (car closest-match)))
 		      intersection-point
 		      closest-match))
 	    (setf closest-match intersection-point))))))
 
 (defun trace-ray (scene ray &optional (lower-bound 0.0) shadow-feeler)
+  (declare (optimize (debug 3)))
   (let ((closest-match (find-closest-intersection scene ray lower-bound shadow-feeler)))
     (if closest-match
 	(destructuring-bind (dist obj ip u v normal) closest-match
